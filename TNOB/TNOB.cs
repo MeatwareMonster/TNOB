@@ -1,22 +1,22 @@
-﻿// JotunnModStub
+﻿// TNOB
 // a Valheim mod skeleton using Jötunn
 // 
-// File:    JotunnModStub.cs
-// Project: JotunnModStub
+// File:    TNOB.cs
+// Project: TNOB
 
 using BepInEx;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace JotunnModStub
+namespace TNOB
 {
     [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
     [BepInDependency(Jotunn.Main.ModGuid)]
     //[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
-    internal class JotunnModStub : BaseUnityPlugin
+    internal class TNOB : BaseUnityPlugin
     {
-        public const string PluginGUID = "com.jotunn.jotunnmodstub";
-        public const string PluginName = "JotunnModStub";
+        public const string PluginGUID = "com.jotunn.TNOB";
+        public const string PluginName = "TNOB";
         public const string PluginVersion = "0.0.1";
 
         private void Awake()
