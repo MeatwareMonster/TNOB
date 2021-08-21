@@ -78,13 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\IgnoreAccessModifiers.cs" />
-    <Compile Include="TNOB.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="boatnuts" />
     <None Include="packages.config" />
     <None Include="Package\README.md" />
+    <EmbeddedResource Include="testbundle" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Package\plugins\" />
