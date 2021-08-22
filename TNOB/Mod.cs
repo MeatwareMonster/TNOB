@@ -46,6 +46,7 @@ namespace TNOB
                 vikingShipNuts.transform.position = vikingShip.transform.position + new Vector3(0.2f, 2.2f, -11);
                 vikingShipNuts.transform.parent = vikingShip.transform;
                 var vikingShipRigidbody = vikingShipNuts.GetComponent<Rigidbody>();
+                renderer = vikingShipNuts.GetComponent<Renderer>();
 
                 var vikingShipJoint = vikingShip.AddComponent<CharacterJoint>();
                 vikingShipJoint.anchor = new Vector3(0.2f, 3.2f, -11);
@@ -83,13 +84,47 @@ namespace TNOB
             _embeddedResourceBundle.Unload(false);
         }
 
-#if DEBUG
+        public Color[] colors = new Color[] {
+            new Color(0.5f, 0, 0),
+            new Color(0, 0.5f, 0),
+            new Color(0, 0, 0.5f),
+        };
+
+        public int currentIndex = 0;
+        private int nextIndex;
+
+        public float changeColourTime = 2.0f;
+
+        private float lastChange = 0.0f;
+        private float timer = 0.0f;
+        private Renderer renderer;
+
+        void Start()
+        {
+            if (colors == null || colors.Length < 2)
+                Debug.Log("Need to setup colors array in inspector");
+
+            nextIndex = (currentIndex + 1) % colors.Length;
+        }
+
+        //#if DEBUG
         private void Update()
         {
+            timer += Time.deltaTime;
+
+            if (timer > changeColourTime)
+            {
+                currentIndex = (currentIndex + 1) % colors.Length;
+                nextIndex = (currentIndex + 1) % colors.Length;
+                timer = 0.0f;
+
+            }
+            renderer.material.color = Color.Lerp(colors[currentIndex], colors[nextIndex], timer / changeColourTime);
+
             if (Input.GetKeyDown(KeyCode.F6))
             { // Set a breakpoint here to break on F6 key press
             }
         }
-#endif
+        //#endif
     }
 }
