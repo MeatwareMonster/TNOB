@@ -31,13 +31,23 @@ namespace TNOB
 
         private AssetBundle _embeddedResourceBundle;
 
+        public static ConfigEntry<bool> EnableTastefulGrayColor;
         public static ConfigEntry<bool> EnableMenuLogo;
         public static ConfigEntry<bool> EnableRGB;
+        public static ConfigEntry<bool> EnableCustomColor;
+        public static ConfigEntry<float> Red;
+        public static ConfigEntry<float> Green;
+        public static ConfigEntry<float> Blue;
 
         private void Awake()
         {
+            EnableTastefulGrayColor = Config.Bind("TNOB", "Tasteful Gray Color", true, new ConfigDescription("Enable tasteful gray color"));
             EnableMenuLogo = Config.Bind("TNOB", "Menu Logo", false, new ConfigDescription("Enable new menu logo"));
             EnableRGB = Config.Bind("TNOB", "RGB", false, new ConfigDescription("Enable RGB color cycling"));
+            EnableCustomColor = Config.Bind("TNOB", "Custom Color", false, new ConfigDescription("Enable custom color"));
+            Red = Config.Bind("TNOB", "Red", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
+            Green = Config.Bind("TNOB", "Green", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
+            Blue = Config.Bind("TNOB", "Blue", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
 
             LoadAssetBundle();
 
@@ -69,15 +79,33 @@ namespace TNOB
                 karveJoint.connectedBody = karveRigidbody;
                 karveJoint.enableCollision = false;
 
-                if (EnableRGB.Value)
+                var renderers = new List<Renderer>
+                {
+                    vikingShipNuts.GetComponent<Renderer>(),
+                    karveNuts.GetComponent<Renderer>()
+                };
+
+                if (EnableCustomColor.Value)
+                {
+                    var customColor = new Color(Red.Value, Green.Value, Blue.Value);
+                    foreach (var renderer in renderers)
+                    {
+                        renderer.material.color = customColor;
+                    }
+                }
+                else if (EnableRGB.Value)
                 {
                     var game = Game.m_instance;
                     var rgb = (RGB)game.gameObject.AddComponent(typeof(RGB));
-                    rgb.Renderers = new List<Renderer>
+                    rgb.Renderers = renderers;
+                }
+                else if (EnableTastefulGrayColor.Value)
+                {
+                    var chrome = new Color(0.33f, 0.34f, 0.35f);
+                    foreach (var renderer in renderers)
                     {
-                        vikingShipNuts.GetComponent<Renderer>(),
-                        karveNuts.GetComponent<Renderer>()
-                    };
+                        renderer.material.color = chrome;
+                    }
                 }
 
                 UnloadAssetBundle();
