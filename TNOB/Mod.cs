@@ -4,7 +4,10 @@
 // File:    TNOB.cs
 // Project: TNOB
 
+using System.IO;
 using BepInEx;
+using BepInEx.Configuration;
+using HarmonyLib;
 using Jotunn.Managers;
 using Jotunn.Utils;
 using UnityEngine;
@@ -20,10 +23,18 @@ namespace TNOB
         public const string PluginName = "TNOB";
         public const string PluginVersion = "1.0.0";
 
+        public static string ModLocation = Path.GetDirectoryName(typeof(Mod).Assembly.Location);
+
+        private readonly Harmony harmony = new Harmony(PluginGUID);
+
         private AssetBundle _embeddedResourceBundle;
+
+        public static ConfigEntry<bool> EnableMenuLogo;
 
         private void Awake()
         {
+            EnableMenuLogo = Config.Bind("TNOB", "Enable Menu Logo", false, new ConfigDescription("Enable new menu logo"));
+
             LoadAssetBundle();
 
             PrefabManager.OnPrefabsRegistered += () =>
@@ -56,6 +67,8 @@ namespace TNOB
 
                 UnloadAssetBundle();
             };
+
+            harmony.PatchAll();
         }
 
         private void LoadAssetBundle()
