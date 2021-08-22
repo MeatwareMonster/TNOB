@@ -39,15 +39,17 @@ namespace TNOB
         public static ConfigEntry<float> Green;
         public static ConfigEntry<float> Blue;
 
+        private ColorManager ColorManager;
+
         private void Awake()
         {
             EnableTastefulGrayColor = Config.Bind("TNOB", "Tasteful Gray Color", true, new ConfigDescription("Enable tasteful gray color"));
             EnableMenuLogo = Config.Bind("TNOB", "Menu Logo", false, new ConfigDescription("Enable new menu logo"));
             EnableRGB = Config.Bind("TNOB", "RGB", false, new ConfigDescription("Enable RGB color cycling"));
             EnableCustomColor = Config.Bind("TNOB", "Custom Color", false, new ConfigDescription("Enable custom color"));
-            Red = Config.Bind("TNOB", "Red", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
-            Green = Config.Bind("TNOB", "Green", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
-            Blue = Config.Bind("TNOB", "Blue", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
+            Red = Config.Bind("TNOB", "Custom Color Red", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
+            Green = Config.Bind("TNOB", "Custom Color Green", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
+            Blue = Config.Bind("TNOB", "Custom Color Blue", 0f, new ConfigDescription("Red value", new AcceptableValueRange<float>(0, 1)));
 
             LoadAssetBundle();
 
@@ -85,28 +87,7 @@ namespace TNOB
                     karveNuts.GetComponent<Renderer>()
                 };
 
-                if (EnableCustomColor.Value)
-                {
-                    var customColor = new Color(Red.Value, Green.Value, Blue.Value);
-                    foreach (var renderer in renderers)
-                    {
-                        renderer.material.color = customColor;
-                    }
-                }
-                else if (EnableRGB.Value)
-                {
-                    var game = Game.m_instance;
-                    var rgb = (RGB)game.gameObject.AddComponent(typeof(RGB));
-                    rgb.Renderers = renderers;
-                }
-                else if (EnableTastefulGrayColor.Value)
-                {
-                    var chrome = new Color(0.33f, 0.34f, 0.35f);
-                    foreach (var renderer in renderers)
-                    {
-                        renderer.material.color = chrome;
-                    }
-                }
+                ColorManager = new ColorManager(renderers);
 
                 UnloadAssetBundle();
             };
@@ -126,13 +107,21 @@ namespace TNOB
             _embeddedResourceBundle.Unload(false);
         }
 
-        //#if DEBUG
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F6))
-            { // Set a breakpoint here to break on F6 key press
+            if (EnableRGB.Value && ColorManager != null)
+            {
+                ColorManager.UpdateRGB();
             }
         }
+
+        //#if DEBUG
+        //private void Update()
+        //{
+        //    if (Input.GetKeyDown(KeyCode.F6))
+        //    { // Set a breakpoint here to break on F6 key press
+        //    }
+        //}
         //#endif
     }
 }
