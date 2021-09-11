@@ -2,7 +2,7 @@
 
 Truck Nuts on Boats total conversion mod.
 
-Showcase: 
+Showcase: https://www.youtube.com/watch?v=eGPXBNsqfZA
 
 # Options
 
@@ -20,6 +20,4 @@ Twitter: https://twitter.com/MeatwareMonster \
 
 # Credits
 
-Model: https://sketchfab.com/3d-models/truck-nutz-7c65a8fc1bc847fdbd4438dae17bc7d0 \
-Music: \
-Video editing: 
+Model: https://sketchfab.com/3d-models/truck-nutz-7c65a8fc1bc847fdbd4438dae17bc7d0
