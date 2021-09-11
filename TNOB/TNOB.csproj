@@ -88,7 +88,6 @@
     <EmbeddedResource Include="boatnuts" />
     <None Include="packages.config" />
     <None Include="Package\README.md" />
-    <EmbeddedResource Include="testbundle" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Package\plugins\" />
