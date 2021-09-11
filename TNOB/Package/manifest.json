@@ -1,7 +1,7 @@
 ﻿{
   "name": "TNOB",
-  "description": "",
+  "description": "Truck Nuts on Boats",
   "version_number": "1.0.0",
-  "website_url": "",
-  "dependencies": ["denikson-BepInExPack_Valheim-5.4.601", ""]
+  "website_url": "https://github.com/MeatwareMonster/TNOB",
+  "dependencies": [ "ValheimModding-Jotunn-2.2.3" ]
 }
